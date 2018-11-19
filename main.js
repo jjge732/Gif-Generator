@@ -1,8 +1,13 @@
-let searches = ['Titanic', 'Avatar', 'Tomb Raider', 'Avengers', 'Spiderman'];
+let topics = ['Titanic', 'Avatar', 'Tomb Raider', 'Avengers', 'Spiderman'];
 
-for (let i = 0; i < searches.length; i++) {
-    let newSpan = $(`<span class="gifRetriever" id='${searches[i]}'>`).html(searches[i]);
+
+const gifMaker = newGif => {
+    let newSpan = $(`<span class="gifRetriever" id='${newGif}'>`).html(newGif);
     $('body').prepend(newSpan);
+}
+
+for (let i = 0; i < topics.length; i++) {
+    gifMaker(topics[i]);
 }
 
 $(document).on('click', '.gifRetriever', function() {
@@ -37,7 +42,6 @@ $(document).on('click', '.toggleAnimation', function() {
 
 $(document).on('click', '#searchBtn', function() {
     let newSearch = $('#searchBar').val();
-    searches.push(newSearch);
-    let newSpan = $(`<span class="gifRetriever" id='${newSearch}'>`).html(newSearch);
-    $('body').prepend(newSpan);
+    topics.push(newSearch);
+    gifMaker(newSearch);
 })
