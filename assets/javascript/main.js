@@ -16,7 +16,7 @@ for (let i = 0; i < topics.length; i++) {
 //uses the gif buttons to get gifs and give them attributes that allow for the ability to toggle between still and gif formats
 $(document).on('click', '.gifRetriever', function() {
     $.ajax({
-        url: `http://api.giphy.com/v1/gifs/search?q=${$(this).attr('id')}&api_key=lAhHEl8an6xkWeYnc4E6FJW90Dr9e79m&limit=10&rating=pg-13`
+        url: `https://api.giphy.com/v1/gifs/search?q=${$(this).attr('id')}&api_key=lAhHEl8an6xkWeYnc4E6FJW90Dr9e79m&limit=10&rating=pg-13`
     }).then(function(response) {
         for (let i = 0; i < response.data.length; i++) {
             //gif box holds a gif as well as rating and star button corresponding to it
