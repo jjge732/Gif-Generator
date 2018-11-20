@@ -32,6 +32,7 @@ $(document).on('click', '.gifRetriever', function() {
             gif.attr('data-animated', response.data[i].images.fixed_width.url);
             gif.attr('data-still', response.data[i].images.fixed_width_still.url);
             gif.attr('data-likeStatus', 'still');
+            gifCount++;
         }
     })
 })

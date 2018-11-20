@@ -6,7 +6,11 @@ body {
     grid-gap: 15px;
     font-size: 24px;
     margin: 1% 2% 1% 1%;
-    background-image: url(../images/pipes.png);
+    background-image: url(../images/memphis-colorful.png);
+}
+
+p {
+    color: #000;
 }
 
 #nonstaredGifs {
@@ -52,6 +56,9 @@ input, #searchBtn {
 
 #staredGifs {
     grid-column: 2;
+    display: grid;
+    grid-auto-rows: auto;
+    grid-row-gap: 35px;
 }
 
 p {
