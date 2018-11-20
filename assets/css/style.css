@@ -1,11 +1,22 @@
 body {
     display: grid;
-    width: 100%;
-    grid-template-columns: repeat(9, 1fr);
-    grid-gap: 10px;
+    width: 96%;
+    grid-template-columns: 75% 25%;
+    grid-auto-rows: auto;
+    grid-gap: 15px;
+    background-color: #CC5A33;
+    font-size: 24px;
+    margin: 1% 2% 1% 1%;
 }
 
-span {
+#nonstaredGifs {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: auto;
+    grid-gap: 15px;
+}
+
+.gifRetriever, #searchBtn, #staredGifs {
     background-color: #3ca;
     color: #fff;
     width: 100%;
@@ -13,8 +24,8 @@ span {
     text-align: center;
 }
 
-input {
-
+input, #searchBtn {
+    grid-column: 1 / 2;
 }
 
 .likeBtn {
@@ -25,3 +36,21 @@ input {
 #searchBtn, .toggleAnimation, .likeBtn, .gifRetriever {
     cursor: pointer;
 }
+
+.gifRetriever {
+    width: 100%;
+}
+
+#gifHolder {
+    grid-column: 1 / 3;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: 220px;
+    width: 100%;
+    grid-column-gap: 15px;
+}
+
+#staredGifs {
+    grid-column: 2;
+}
+
