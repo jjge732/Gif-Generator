@@ -31,7 +31,7 @@ $(document).on('click', '.gifRetriever', function() {
             gif.attr('class', 'toggleAnimation')
             gif.attr('data-animated', response.data[i].images.fixed_width.url);
             gif.attr('data-still', response.data[i].images.fixed_width_still.url);
-            gif.attr('data-likeStatus', 'still');
+            gif.attr('data-animationStatus', 'still');
             gifCount++;
         }
     })
@@ -39,15 +39,15 @@ $(document).on('click', '.gifRetriever', function() {
 
 // causes image to switch between still and gif
 $(document).on('click', '.toggleAnimation', function() {
-    if ($(this).attr('data-likeStatus') === 'still') {
+    if ($(this).attr('data-animationStatus') === 'still') {
         let animate = $(this).attr('data-animated');
         $(this).attr('src', animate);
-        $(this).attr('data-likeStatus', 'animated')
+        $(this).attr('data-animationStatus', 'animated')
     }
-    else if ($(this).attr('data-likeStatus') === 'animated') {
+    else if ($(this).attr('data-animationStatus') === 'animated') {
         let stationary = $(this).attr('data-still');
         $(this).attr('src', stationary);
-        $(this).attr('data-likeStatus', 'still')
+        $(this).attr('data-animationStatus', 'still')
     }
 })
 
@@ -61,25 +61,53 @@ $(document).on('click', '#searchBtn', function() {
 //adds 'like' functionality to the page
 $(document).on('click', '.likeBtn', function() {
     if ($(this).attr('data-starStatus') === 'notStared') {
-        let that = `#gif-${$(this).attr('data-nbr')}`;
+        let number = $(this).attr('data-nbr');
+        let that = `#gif-${number}`;
         $(this).attr('src', $(this).attr('data-star'));
         $(this).attr('data-starStatus', 'stared');
         $('#staredGifs').append($(that));
-        localStorage.setItem(`star-${starCount}`, that);
+        localStorage.setItem(`star-${starCount}`, $(that).children().attr('data-still'));
+        console.log($(that).children()[0]);
         starCount++;
+        localStorage.setItem('starCount', starCount);
     }
     else if ($(this).attr('data-starStatus') === 'stared') {
-        let that = $(`#gif-${$(this).attr('data-nbr')}`);
+        let number = $(this).attr('data-nbr');
+        let that = $(`#gif-${number}`);
         $(this).attr('src', $(this).attr('data-unstar'));
         $(this).attr('data-starStatus', 'notStared');
         $('#gifHolder').prepend(that);
-        localStorage.setItem(`star-${starCount}`, '');
+        localStorage.setItem(`star-${number}`, '');
+        starCount--;
+        localStorage.setItem('starCount', starCount);
     }
 })
 
-//appends the favorites when document loads
-for (let i = 0; i <= starCount; i++) {
-    let toBeAppended = localStorage.getItem(`star-${i}`);
-    $('#staredGifs').append($(toBeAppended));
-    console.log(toBeAppended);
+//appends the favorites when document loads if there are any
+if(localStorage.getItem('starCount')) {
+    starCount = localStorage.getItem('starCount');
+    //loops to dispaly the starred gifs
+    for (let i = 0; i < starCount; i++) {
+        //allows for unstaring of gifs while maintaing proper rendering of stared gifs
+        while(localStorage.getItem(`star-${i}`) === '') {
+            i++;
+            starCount++;
+        }
+        let stillSource = localStorage.getItem(`star-${i}`);
+        let gifSource = stillSource.replace('_s', '');
+        let gifBox = $(`<span id='gif-${gifCount}'>`);
+        //gif holder holds all the stared gifs
+        $('#staredGifs').prepend($(gifBox));
+        //sets the default image src to the still image
+        let gif = $(`<img src='${stillSource}'>`);
+        $(gifBox).prepend($('<p>').html(`<img class="likeBtn" alt="like button" data-nbr='${gifCount}' data-starStatus="stared" data-unstar="assets/images/iconfinder_star_172558.png" data-star="assets/images/iconfinder_star_299040.png" src="assets/images/iconfinder_star_299040.png">`));
+        $(gifBox).prepend(gif);
+        //creates attributes which allow for easy switching between data types
+        gif.attr('class', 'toggleAnimation');
+        gif.attr('data-animated', gifSource);
+        gif.attr('data-still', stillSource);
+        gif.attr('data-animationStatus', 'still');
+        gifCount++;
+        $('#staredGifs').append($(''));
+    }
 }
